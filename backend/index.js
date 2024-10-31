@@ -19,7 +19,7 @@ const TravelStory = require("./models/travelstory.model");
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors({ origin: "*" }));
 
 // Create Account
 app.post("/create-account", async (req, res) => {
@@ -79,7 +79,7 @@ app.post("/login", async (req, res) => {
     return res.status(404).json({ error: true, message: "User not found." });
   }
 
-  const isMatch = await bcrypt.compareSyn(password, user.password);
+  const isMatch = await bcrypt.compareSync(password, user.password);
 
   if (!isMatch) {
     return res
