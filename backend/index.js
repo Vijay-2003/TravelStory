@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-const bcrypt = require("bcrypt");
+const bcrypt = require('bcryptjs');
 const express = require("express");
 const cors = require("cors");
 const config = require("./config.json");
@@ -38,8 +38,8 @@ app.post("/create-account", async (req, res) => {
       .json({ error: true, message: "User already exists." });
   }
 
-  // const salt = await bcrypt.genSalt();
-  const hashedPassword = await bcrypt.hash(password, 10);
+  const salt = await bcrypt.genSaltSync(10);
+  const hashedPassword = await bcrypt.hashSync(password, salt);
   const user = new User({ fullName, email, password: hashedPassword });
 
   await user.save();
@@ -79,7 +79,7 @@ app.post("/login", async (req, res) => {
     return res.status(404).json({ error: true, message: "User not found." });
   }
 
-  const isMatch = await bcrypt.compare(password, user.password);
+  const isMatch = await bcrypt.compareSync(password, user.password);
 
   if (!isMatch) {
     return res
