@@ -19,7 +19,7 @@ const TravelStory = require("./models/travelstory.model");
 
 const app = express();
 app.use(express.json());
-app.use(cors({ origin: "*" }));
+app.use(cors());
 
 // Create Account
 app.post("/create-account", async (req, res) => {
