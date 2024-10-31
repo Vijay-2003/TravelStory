@@ -11,6 +11,7 @@ import Home from "./pages/Home/Home";
 import All from "./pages/Home/All";
 import SeeDetails from "./pages/Home/SeeDetails";
 
+
 const App = () => {
   return (
     <div>
