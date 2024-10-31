@@ -484,6 +484,5 @@ app.get("/get-travel-story/:id", authenticateToken, async (req, res) => {
   }
 });
 
-
-app.listen(8000);
+app.listen(8000, console.log("Server running"));
 module.exports = app;
