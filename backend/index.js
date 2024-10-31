@@ -79,7 +79,7 @@ app.post("/login", async (req, res) => {
     return res.status(404).json({ error: true, message: "User not found." });
   }
 
-  const isMatch = await bcrypt.compareSync(password, user.password);
+  const isMatch = await bcrypt.compareSyn(password, user.password);
 
   if (!isMatch) {
     return res
@@ -131,7 +131,8 @@ app.post("/image-upload", upload.single("image"), async (req, res) => {
         .json({ error: true, message: "No Image uploaded" });
     }
 
-    const imageUrl = `https://travelstory-3g13.onrender.com/${req.file.filename}`;
+    // const imageUrl = `http://localhost:8000/uploads/${req.file.filename}`;
+    const imageUrl = `https://travelstory-3g13.onrender.com/uploads/${req.file.filename}`;
 
     res.status(200).json({
       error: false,
