@@ -131,7 +131,7 @@ app.post("/image-upload", upload.single("image"), async (req, res) => {
         .json({ error: true, message: "No Image uploaded" });
     }
 
-    const imageUrl = `http://localhost:8000/uploads/${req.file.filename}`;
+    const imageUrl = `https://travelstory-3g13.onrender.com/${req.file.filename}`;
 
     res.status(200).json({
       error: false,
