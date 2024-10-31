@@ -38,8 +38,8 @@ app.post("/create-account", async (req, res) => {
       .json({ error: true, message: "User already exists." });
   }
 
-  const salt = await bcrypt.genSalt();
-  const hashedPassword = await bcrypt.hash(password, salt);
+  // const salt = await bcrypt.genSalt();
+  const hashedPassword = await bcrypt.hash(password, 10);
   const user = new User({ fullName, email, password: hashedPassword });
 
   await user.save();
