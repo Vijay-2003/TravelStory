@@ -39,7 +39,7 @@ app.post("/create-account", async (req, res) => {
   }
 
   const salt = await bcrypt.genSalt();
-  const hashedPassword = await bcrypt.hash(password, 10);
+  const hashedPassword = await bcrypt.hash(password, salt);
   const user = new User({ fullName, email, password: hashedPassword });
 
   await user.save();
@@ -126,7 +126,9 @@ app.get("/get-user", authenticateToken, async (req, res) => {
 app.post("/image-upload", upload.single("image"), async (req, res) => {
   try {
     if (!req.file) {
-      return res.status(400).json({ error: true, message: "No Image uploaded" });
+      return res
+        .status(400)
+        .json({ error: true, message: "No Image uploaded" });
     }
 
     const imageUrl = `http://localhost:8000/uploads/${req.file.filename}`;
@@ -444,7 +446,7 @@ app.get("/get-all-stories-other-users", authenticateToken, async (req, res) => {
 
   try {
     const travelStories = await TravelStory.find({
-      userId: { $ne: userId }  // Exclude stories by the logged-in user
+      userId: { $ne: userId }, // Exclude stories by the logged-in user
     }).sort({ isFavourite: -1 });
 
     return res.status(200).json({
@@ -455,10 +457,12 @@ app.get("/get-all-stories-other-users", authenticateToken, async (req, res) => {
     console.error(error);
     return res
       .status(500)
-      .json({ error: true, message: "Error fetching travel stories by other users." });
+      .json({
+        error: true,
+        message: "Error fetching travel stories by other users.",
+      });
   }
 });
-
 
 // Get Travel Story by ID
 app.get("/get-travel-story/:id", authenticateToken, async (req, res) => {
@@ -470,7 +474,9 @@ app.get("/get-travel-story/:id", authenticateToken, async (req, res) => {
     const travelStory = await TravelStory.findOne({ _id: id, userId: userId });
 
     if (!travelStory) {
-      return res.status(404).json({ error: true, message: "Travel Story not found." });
+      return res
+        .status(404)
+        .json({ error: true, message: "Travel Story not found." });
     }
 
     return res.status(200).json({
@@ -480,7 +486,9 @@ app.get("/get-travel-story/:id", authenticateToken, async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: true, message: "Error fetching travel story." });
+    return res
+      .status(500)
+      .json({ error: true, message: "Error fetching travel story." });
   }
 });
 
